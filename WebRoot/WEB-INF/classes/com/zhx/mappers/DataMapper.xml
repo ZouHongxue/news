@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.zhx.dao.DataDao">
+ 	<select id="getArticlesForHome" resultType="News">
+ 		select * from news ORDER BY date desc limit 4
+ 	</select>
+ 	<select id="getNewsList" resultType="News">
+ 		select id,title from news order by date desc
+ 	</select>
+ 	<select id="getNewsListByRelated" parameterType="String" resultType="News">
+ 		select id,title from news where 
+ 		title like #{title} order by date desc
+ 	</select>
+ 	<select id="getHotTitle" resultType="String">
+ 		select title from news order by date desc limit 3
+ 	</select>
+ 	
+ 	<select id="getRelated" parameterType="java.util.List" resultType="News">
+ 		select id,title from news 
+ 		<where>
+ 			<foreach collection="list" item="word" open="title like " separator="or title like ">
+ 				#{word}
+ 			</foreach>
+ 		</where>
+ 	</select>
+ </mapper>
